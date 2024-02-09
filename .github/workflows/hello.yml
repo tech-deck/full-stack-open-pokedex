@@ -26,6 +26,5 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: "Directory content"
-      run: |
-        ls -l
-  
+        run: |
+          ls -l
