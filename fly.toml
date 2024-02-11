@@ -4,6 +4,9 @@ primary_region = 'syd'
 [env]
 PORT = "3000"
 
+[deploy]
+strategy = "canary"
+
 [processes]
 app = "node app.js"
 
@@ -21,3 +24,10 @@ processes = ['app']
 cpu_kind = 'shared'
 cpus = 1
 memory_mb = 256
+
+[[http_service.checks]]
+grace_period = "10s"
+interval = "3600s"
+method = "GET"
+timeout = "5s"
+path = "/health"
