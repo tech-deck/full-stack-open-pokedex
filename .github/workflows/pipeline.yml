@@ -20,7 +20,6 @@ jobs:
       - run: npm run eslint
       - run: npm run build
       - name: tests
-        if: !SKIP_TESTS
         run: npm run test
       - name: e2e tests
         uses: cypress-io/github-action@v6
