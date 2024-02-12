@@ -19,7 +19,9 @@ jobs:
       - run: npm install
       - run: npm run eslint
       - run: npm run build
-      - run: npm run test
+      - name: tests
+        if: !SKIP_TESTS
+        run: npm run test
       - name: e2e tests
         uses: cypress-io/github-action@v6
         with:
@@ -29,7 +31,7 @@ jobs:
 
   deploy:
     needs: build_and_test
-    if: ${{ github.event_name == 'push' && !contains(github.event.commits.*.message, '#skip') }} 
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }} 
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
@@ -40,9 +42,9 @@ jobs:
 
   tag_release:
     needs: deploy
-    if: ${{ github.event_name == 'push' && !contains(github.event.commits.*.message, '#skip') }} 
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }} 
     runs-on: ubuntu-20.04
     steps:
-     - uses: anothrNick/github-tag-action@1.64.0
+      - uses: anothrNick/github-tag-action@8c8163ef62cf9c4677c8e800f36270af27930f42
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

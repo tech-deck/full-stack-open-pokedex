@@ -12,6 +12,9 @@ jobs:
       - name: Say hello
         run: |
           echo "Hello World!"
+          echo "commit message: ${COMMIT_MESSAGE}"
+        env: 
+          COMMIT_MESSAGE: ${{ toJson(github.event.commits.*.message) }}
 
   print_date_job:
     runs-on: ubuntu-20.04
